@@ -1,4 +1,5 @@
 import pygame
+import sys
 from pygame_utility_pack.debug.debug_overlay import DebugOverlay
 
 
@@ -10,7 +11,7 @@ screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Debug Overlay Example")
 
-# MovingSprite class definition
+# MovingSprite class definition  
 class MovingSprite(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color):
         super().__init__()
@@ -35,7 +36,7 @@ clock = pygame.time.Clock()
 debug = DebugOverlay(screen)
 
 # Add sprite's position and velocity to the debug overlay
-debug.add_variables(sprite.rect, sprite.velocity)
+debug.add_variables(sprite_rect=sprite.rect, sprite_velocity=sprite.velocity)
 
 # Set custom font and font size
 debug.set_font('Consolas', 16)
@@ -43,10 +44,15 @@ debug.set_font('Consolas', 16)
 # Enable background for debug text
 debug.enable_background()
 
-running = True
-while running:
+while True:
+    # Event loop
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
     dt = clock.tick(60) / 1000  # Amount of seconds between each loop
-    screen.fill((0, 0, 0))  # Clear the screen
+    screen.fill("white")  # Clear the screen
 
     # Update and draw sprite
     sprite.update(dt)
@@ -62,11 +68,3 @@ while running:
     debug.draw()
 
     pygame.display.flip()  # Update the display
-
-    # Event loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-pygame.quit()
-sys.exit()
