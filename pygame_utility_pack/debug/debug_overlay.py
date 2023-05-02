@@ -12,6 +12,10 @@ class DebugOverlay:
     def __init__(self, screen):
         """
         Initializes the DebugOverlay with the given Pygame screen.
+
+        :param screen: the Pygame screen to draw on
+        :type screen: pygame.Surface
+        :returns: None
         """
 
         # Member variables
@@ -37,6 +41,7 @@ class DebugOverlay:
         Adds the given variables to the DebugOverlay.
 
         :param kwargs: the variables to add
+        :returns: None
         """
 
         for key, value in kwargs.items():
@@ -47,6 +52,7 @@ class DebugOverlay:
         Removes the specified variables from the DebugOverlay.
 
         :param args: the names of the variables to remove
+        :returns: None
         """
 
         for var_name in args:
@@ -66,6 +72,7 @@ class DebugOverlay:
         :param italic: whether the font should be italic (default False)
         :type italic: bool
         :raises TypeError: if name is not a string or if size is not an integer
+        :returns: None
         """
 
         # Check for invalid arguments
@@ -80,6 +87,8 @@ class DebugOverlay:
     def enable_background(self):
         """
         Enables the background for the DebugOverlay.
+
+        :returns: None
         """
 
         self.background_enabled = True
@@ -87,6 +96,8 @@ class DebugOverlay:
     def disable_background(self):
         """
         Disables the background for the DebugOverlay.
+
+        :returns: None
         """
 
         self.background_enabled = False
@@ -94,6 +105,8 @@ class DebugOverlay:
     def draw(self):
         """
         Draws the DebugOverlay on the Pygame screen.
+
+        :returns: None
         """
 
         # Clear the overlay surface
