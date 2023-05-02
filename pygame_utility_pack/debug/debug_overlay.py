@@ -16,11 +16,15 @@ class DebugOverlay:
         :param screen: the Pygame screen to draw on
         :type screen: pygame.Surface
         """
+
         self.screen = screen
         self.font = pygame.font.SysFont('Courier New', 16, bold=True)
         self.variables = {}
         self.background_enabled = False
-        self.overlay_surface = pygame.Surface(pygame.display.get_surface().get_size(), pygame.SRCALPHA)
+        self.overlay_surface = pygame.Surface(
+            pygame.display.get_surface().get_size(),
+            pygame.SRCALPHA
+        )
 
     def add_variables(self, **kwargs):
         """
@@ -28,6 +32,7 @@ class DebugOverlay:
 
         :param kwargs: the variables to add
         """
+
         for key, value in kwargs.items():
             self.variables[key] = value
 
@@ -37,6 +42,7 @@ class DebugOverlay:
 
         :param args: the names of the variables to remove
         """
+
         for var_name in args:
             if var_name in self.variables:
                 del self.variables[var_name]
@@ -53,37 +59,45 @@ class DebugOverlay:
         :type bold: bool
         :param italic: whether the font should be italic (default False)
         :type italic: bool
-        :raises ValueError: if the name is not a string or the size is not an integer
+        :raises TypeError: if name is not a string or if size is not an integer
         """
-        if not isinstance(name, str) or not isinstance(size, int):
-            raise ValueError("Font name must be a string and font size must be an integer")
+
+        if not isinstance(name, str):
+            raise TypeError("Font name must be a string")
+        if not isinstance(size, int):
+            raise TypeError("Font size must be an integer")
         self.font = pygame.font.SysFont(name, size, bold, italic)
 
     def enable_background(self):
         """
         Enables the background for the DebugOverlay.
         """
+
         self.background_enabled = True
 
     def disable_background(self):
         """
         Disables the background for the DebugOverlay.
         """
+
         self.background_enabled = False
 
     def draw(self):
         """
         Draws the DebugOverlay on the Pygame screen.
         """
+
         self.overlay_surface.fill((0, 0, 0, 0))
 
         y_offset = 0
 
         for var_name, value in self.variables.items():
-            text = self.font.render(f"{var_name}: {value}", True, (255, 255, 255))
+            text = self.font.render(f"{var_name}: {value}", True, "white")
             if self.background_enabled:
                 text_rect = text.get_rect()
-                pygame.draw.rect(self.overlay_surface, (0, 0, 0), (text_rect.left, text_rect.top + y_offset, text_rect.width, text_rect.height))
+                x, y = text_rect.left, text_rect.top + y_offset
+                w, h = text_rect.width, text_rect.height
+                pygame.draw.rect(self.overlay_surface, "black", (x, y, w, h))
             self.overlay_surface.blit(text, (0, y_offset))
             y_offset += self.font.get_linesize()
 
