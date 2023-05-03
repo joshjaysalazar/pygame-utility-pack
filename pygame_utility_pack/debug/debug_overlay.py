@@ -117,7 +117,14 @@ class DebugOverlay:
         self.overlay_surface.fill((0, 0, 0, 0))
 
         # Create text surfaces for variables
-        text_surfaces = [self.font.render(f"{var_name}: {value}", True, self.font_color) for var_name, value in variables.items()]
+        text_surfaces = []
+        for var_name, value in variables.items():
+            text = self.font.render(
+                f"{var_name}: {value}",
+                True,
+                self.font_color
+            )
+            text_surfaces.append(text)
 
         # Calculate the total height of the text surfaces
         total_height = len(text_surfaces) * self.font.get_linesize()
@@ -134,7 +141,10 @@ class DebugOverlay:
         elif position == 'bottomright':
             y_offset = self.screen.get_height() - total_height
         else:
-            raise ValueError("Invalid position. Must be 'topleft', 'topright', 'bottomleft', or 'bottomright'.")
+            raise ValueError(
+                "Invalid position. Must be 'topleft', 'topright', " \
+                "'bottomleft', or 'bottomright'."
+            )
 
         # Draw the text surfaces on the overlay surface
         for text in text_surfaces:
