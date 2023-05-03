@@ -64,14 +64,17 @@ class Game:
             self.sprite.update()
             self.screen.blit(self.sprite.image, self.sprite.rect)
 
-            # Draw debug overlay
+            # Draw debug overlays
             self.debug.draw(
-                "This is a test message",
                 box_img=self.sprite.image,
                 box_x=self.sprite.rect.x,
                 box_y=self.sprite.rect.y,
-                box_vel=self.sprite.velocity,
-                fps=round(self.clock.get_fps(), 2)
+                box_vel=self.sprite.velocity
+            )
+            self.debug.draw(
+                position="bottomright",
+                fps=round(self.clock.get_fps(), 2),
+                test_message="This is a test message."
             )
 
             # Update the display and limit the framerate

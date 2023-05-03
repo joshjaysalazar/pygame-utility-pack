@@ -91,12 +91,12 @@ class DebugOverlay:
         else:
             self.background_enabled = enabled
 
-    def draw(self, *messages, **variables):
+    def draw(self, position='topleft', **variables):
         """
         Draws the DebugOverlay on the Pygame screen.
 
-        :param messages: the messages to display on the overlay
-        :type messages: any
+        :param position: the position of the debug text (default 'topleft')
+        :type position: str
         :param variables: the variables to display on the overlay
         :type variables: any
         :returns: None
@@ -109,37 +109,38 @@ class DebugOverlay:
         # Clear the overlay surface
         self.overlay_surface.fill((0, 0, 0, 0))
 
-        # Track the y offset for each line of text
-        y_offset = 0
+        # Create text surfaces for variables
+        text_surfaces = [self.font.render(f"{var_name}: {value}", True, "white") for var_name, value in variables.items()]
 
-        # Draw each message on the overlay surface
-        for message in messages:
-            text = self.font.render(message, True, "white")
+        # Calculate the total height of the text surfaces
+        total_height = len(text_surfaces) * self.font.get_linesize()
 
-            # Draw a background for the text if enabled
+        # Determine the x and y offsets based on the position
+        if position == 'topleft':
+            x_offset = 0
+            y_offset = 0
+        elif position == 'topright':
+            y_offset = 0
+        elif position == 'bottomleft':
+            x_offset = 0
+            y_offset = self.screen.get_height() - total_height
+        elif position == 'bottomright':
+            y_offset = self.screen.get_height() - total_height
+        else:
+            raise ValueError("Invalid position. Must be 'topleft', 'topright', 'bottomleft', or 'bottomright'.")
+
+        # Draw the text surfaces on the overlay surface
+        for text in text_surfaces:
+            if position == 'topright' or position == 'bottomright':
+                x_offset = self.screen.get_width() - text.get_width()
+
             if self.background_enabled:
                 text_rect = text.get_rect()
-                x, y = text_rect.left, text_rect.top + y_offset
+                x, y = x_offset + text_rect.left, y_offset + text_rect.top
                 w, h = text_rect.width, text_rect.height
                 pygame.draw.rect(self.overlay_surface, "black", (x, y, w, h))
-            
-            # Draw the text on the overlay surface
-            self.overlay_surface.blit(text, (0, y_offset))
-            y_offset += self.font.get_linesize()
 
-        # Draw each variable on the overlay surface
-        for var_name, value in variables.items():
-            text = self.font.render(f"{var_name}: {value}", True, "white")
-
-            # Draw a background for the text if enabled
-            if self.background_enabled:
-                text_rect = text.get_rect()
-                x, y = text_rect.left, text_rect.top + y_offset
-                w, h = text_rect.width, text_rect.height
-                pygame.draw.rect(self.overlay_surface, "black", (x, y, w, h))
-            
-            # Draw the text on the overlay surface
-            self.overlay_surface.blit(text, (0, y_offset))
+            self.overlay_surface.blit(text, (x_offset, y_offset))
             y_offset += self.font.get_linesize()
 
         # Draw the overlay surface on the Pygame screen
