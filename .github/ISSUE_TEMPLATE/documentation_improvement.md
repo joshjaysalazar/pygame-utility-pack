@@ -1,6 +1,6 @@
 ---
 name: Documentation improvement
-about: Suggest improvements or report issues with the Pygame Utility Pack documentation
+about: Suggest improvements or report issues with the Pygkit documentation
 labels: documentation
 ---
 

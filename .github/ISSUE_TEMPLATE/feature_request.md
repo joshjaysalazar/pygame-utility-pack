@@ -6,7 +6,7 @@ labels: enhancement
 
 # Feature description
 
-A clear and concise description of the feature you're proposing. Explain the problem this feature would solve and how it would benefit users of the Pygame Utility Pack library.
+A clear and concise description of the feature you're proposing. Explain the problem this feature would solve and how it would benefit users of the Pygkit library.
 
 ## Proposed solution
 

@@ -1,6 +1,6 @@
 ---
 name: Question
-about: Ask a question or seek clarification about the Pygame Utility Pack library
+about: Ask a question or seek clarification about the Pygkit library
 labels: question
 ---
 

@@ -29,7 +29,7 @@ A clear and concise description of what actually happens when the issue occurs.
 - OS: [e.g., Windows, macOS, Linux]
 - Python version: [e.g., 3.7, 3.8, 3.9]
 - Pygame version: [e.g., 2.0.1]
-- Pygame Utility Pack version: [e.g., 1.0.0]
+- Pygkit version: [e.g., 1.0.0]
 
 ## Additional context
 
