@@ -42,7 +42,8 @@ class DebugOverlay:
 
         :param options: the options for the font
         :type options: dict
-        :raises TypeError: if an invalid option is provided
+        :raises ValueError: if an invalid option is provided
+        :raises TypeError: if an option has an invalid type
         :returns: None
         """
 
@@ -59,7 +60,7 @@ class DebugOverlay:
             if key in default_options:
                 default_options[key] = value
             else:
-                raise TypeError(f"Invalid option '{key}'")
+                raise ValueError(f"Invalid option '{key}'")
 
         # Check for invalid arguments
         if not isinstance(default_options['name'], str):
