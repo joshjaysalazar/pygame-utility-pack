@@ -24,40 +24,17 @@ class DebugOverlay:
         # Default font for the DebugOverlay
         self.font = pygame.font.SysFont('Courier New', 16, bold=True)
 
-        # Dictionary to track variables to display on the overlay
-        self.variables = {}
+        # Flag indicating whether the DebugOverlay is visible
+        self.visible = True
 
         # Flag indicating whether to draw a background
-        self.background_enabled = False
+        self.background_enabled = True
 
         # Surface used to draw the DebugOverlay, set to the size of the screen
         self.overlay_surface = pygame.Surface(
             pygame.display.get_surface().get_size(),
             pygame.SRCALPHA
         )
-
-    def add_variables(self, **kwargs):
-        """
-        Adds the given variables to the DebugOverlay.
-
-        :param kwargs: the variables to add
-        :returns: None
-        """
-
-        for key, value in kwargs.items():
-            self.variables[key] = value
-
-    def remove_variables(self, *args):
-        """
-        Removes the specified variables from the DebugOverlay.
-
-        :param args: the names of the variables to remove
-        :returns: None
-        """
-
-        for var_name in args:
-            if var_name in self.variables:
-                del self.variables[var_name]
 
     def set_font(self, name='Courier New', size=14, bold=False, italic=False):
         """
@@ -84,30 +61,50 @@ class DebugOverlay:
         # Set the font
         self.font = pygame.font.SysFont(name, size, bold, italic)
 
-    def enable_background(self):
+    def toggle_visible(self, enabled=None):
         """
-        Enables the background for the DebugOverlay.
+        Toggles the visibility of the DebugOverlay.
 
+        :param enabled: whether to enable the overlay (default None)
+        :type enabled: bool
         :returns: None
         """
 
-        self.background_enabled = True
+        # Toggle the visibility if enabled is None, or set it to the given value
+        if enabled is None:
+            self.visible = not self.visible
+        else:
+            self.visible = enabled
 
-    def disable_background(self):
+    def toggle_background(self, enabled=None):
         """
-        Disables the background for the DebugOverlay.
+        Toggles the background for the DebugOverlay.
 
+        :param enabled: whether to enable the background (default None)
+        :type enabled: bool
         :returns: None
         """
 
-        self.background_enabled = False
+        # Toggle the background if enabled is None, or set it to the given value
+        if enabled is None:
+            self.background_enabled = not self.background_enabled
+        else:
+            self.background_enabled = enabled
 
-    def draw(self):
+    def draw(self, *messages, **variables):
         """
         Draws the DebugOverlay on the Pygame screen.
 
+        :param messages: the messages to display on the overlay
+        :type messages: any
+        :param variables: the variables to display on the overlay
+        :type variables: any
         :returns: None
         """
+
+        # Return if the overlay is not visible
+        if not self.visible:
+            return
 
         # Clear the overlay surface
         self.overlay_surface.fill((0, 0, 0, 0))
@@ -115,8 +112,23 @@ class DebugOverlay:
         # Track the y offset for each line of text
         y_offset = 0
 
+        # Draw each message on the overlay surface
+        for message in messages:
+            text = self.font.render(message, True, "white")
+
+            # Draw a background for the text if enabled
+            if self.background_enabled:
+                text_rect = text.get_rect()
+                x, y = text_rect.left, text_rect.top + y_offset
+                w, h = text_rect.width, text_rect.height
+                pygame.draw.rect(self.overlay_surface, "black", (x, y, w, h))
+            
+            # Draw the text on the overlay surface
+            self.overlay_surface.blit(text, (0, y_offset))
+            y_offset += self.font.get_linesize()
+
         # Draw each variable on the overlay surface
-        for var_name, value in self.variables.items():
+        for var_name, value in variables.items():
             text = self.font.render(f"{var_name}: {value}", True, "white")
 
             # Draw a background for the text if enabled

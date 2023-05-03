@@ -33,25 +33,12 @@ class Game:
         # Initialize DebugOverlay
         self.debug = DebugOverlay(self.screen)
 
-        # Set custom font and font size for debug text
-        self.debug.set_font('Consolas', 16)
-
-        # Enable background for debug text
-        self.debug.enable_background()
-
         # Create a Box instance
         self.sprite = Box(100, 100, 5, 5, 50, 50, "mediumpurple4")
 
-        # Add sprite's position and velocity to the debug overlay
-        self.debug.add_variables(
-            sprite_rect=self.sprite.rect,
-            sprite_velocity=self.sprite.velocity,
-            bounces=self.sprite.bounces
-        )
-
     def run(self):
         """
-        Runs the game.
+        Runs the game. The V key toggles the debug overlay.
 
         :returns: None
         """
@@ -60,9 +47,15 @@ class Game:
         while True:
             # Event loop
             for event in pygame.event.get():
+                # Check for quit event
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                
+                # Check for V key press, toggle debug visibility if pressed
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
+                    # Toggle the debug overlay
+                    self.debug.visible = not self.debug.visible
 
             # Draw background
             self.screen.fill("papayawhip")
@@ -72,7 +65,14 @@ class Game:
             self.screen.blit(self.sprite.image, self.sprite.rect)
 
             # Draw debug overlay
-            self.debug.draw()
+            self.debug.draw(
+                "This is a test message",
+                box_img=self.sprite.image,
+                box_x=self.sprite.rect.x,
+                box_y=self.sprite.rect.y,
+                box_vel=self.sprite.velocity,
+                fps=round(self.clock.get_fps(), 2)
+            )
 
             # Update the display and limit the framerate
             pygame.display.flip()
@@ -125,9 +125,6 @@ class Box(pygame.sprite.Sprite):
         # Set the sprite's velocity using a Vector2
         self.velocity = pygame.math.Vector2(x_vel, y_vel)
 
-        # Variable to keep track of how many times the sprite has bounced
-        self.bounces = 0
-
     def update(self):
         """
         Updates the sprite's position.
@@ -141,19 +138,15 @@ class Box(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
             self.velocity.x = -self.velocity.x
-            self.bounces += 1
         elif self.rect.right > SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
             self.velocity.x = -self.velocity.x
-            self.bounces += 1
         if self.rect.top < 0:
             self.rect.top = 0
             self.velocity.y = -self.velocity.y
-            self.bounces += 1
         elif self.rect.bottom > SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
             self.velocity.y = -self.velocity.y
-            self.bounces += 1
 
 
 # Create the game object and run it
