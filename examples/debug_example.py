@@ -64,15 +64,32 @@ class Game:
             self.sprite.update()
             self.screen.blit(self.sprite.image, self.sprite.rect)
 
-            # Draw debug overlays
+            # Draw the top-left debug overlay
+            self.debug.set_font(
+                name="Courier New",
+                size=16,
+                bold=True,
+                italic=False,
+                color="white"
+            )
             self.debug.draw(
                 box_img=self.sprite.image,
                 box_x=self.sprite.rect.x,
                 box_y=self.sprite.rect.y,
                 box_vel=self.sprite.velocity
             )
+
+            # Draw the bottom-right debug overlay
+            self.debug.set_font(
+                name="Arial",
+                size=20,
+                bold=False,
+                italic=True,
+                color="navy"
+            )
             self.debug.draw(
                 position="bottomright",
+                background_enabled=False,
                 fps=round(self.clock.get_fps(), 2),
                 test_message="This is a test message."
             )

@@ -24,11 +24,11 @@ class DebugOverlay:
         # Default font for the DebugOverlay
         self.font = pygame.font.SysFont('Courier New', 16, bold=True)
 
+        # Variable to track font color
+        self.font_color = "white"
+
         # Flag indicating whether the DebugOverlay is visible
         self.visible = True
-
-        # Flag indicating whether to draw a background
-        self.background_enabled = True
 
         # Surface used to draw the DebugOverlay, set to the size of the screen
         self.overlay_surface = pygame.Surface(
@@ -36,30 +36,51 @@ class DebugOverlay:
             pygame.SRCALPHA
         )
 
-    def set_font(self, name='Courier New', size=14, bold=False, italic=False):
+    def set_font(self, **options):
         """
         Sets the font used by the DebugOverlay.
 
-        :param name: the name of the font (default 'Courier New')
-        :type name: str
-        :param size: the size of the font (default 14)
-        :type size: int
-        :param bold: whether the font should be bold (default False)
-        :type bold: bool
-        :param italic: whether the font should be italic (default False)
-        :type italic: bool
-        :raises TypeError: if name is not a string or if size is not an integer
+        :param options: the options for the font
+        :type options: dict
+        :raises TypeError: if an invalid option is provided
         :returns: None
         """
 
+        default_options = {
+            'name': 'Courier New',
+            'size': 14,
+            'bold': False,
+            'italic': False,
+            'color': 'white'
+        }
+
+        # Update the default options with the provided options
+        for key, value in options.items():
+            if key in default_options:
+                default_options[key] = value
+            else:
+                raise TypeError(f"Invalid option '{key}'")
+
         # Check for invalid arguments
-        if not isinstance(name, str):
+        if not isinstance(default_options['name'], str):
             raise TypeError("Font name must be a string")
-        if not isinstance(size, int):
+        if not isinstance(default_options['size'], int):
             raise TypeError("Font size must be an integer")
-        
-        # Set the font
-        self.font = pygame.font.SysFont(name, size, bold, italic)
+        if not isinstance(default_options['bold'], bool):
+            raise TypeError("Font bold flag must be a boolean")
+        if not isinstance(default_options['italic'], bool):
+            raise TypeError("Font italic flag must be a boolean")
+        if not isinstance(default_options['color'], str):
+            raise TypeError("Font color must be a string")
+
+        # Set the font and color
+        self.font = pygame.font.SysFont(
+            default_options['name'],
+            default_options['size'],
+            default_options['bold'],
+            default_options['italic']
+        )
+        self.font_color = default_options['color']
 
     def toggle_visible(self, enabled=None):
         """
@@ -76,29 +97,14 @@ class DebugOverlay:
         else:
             self.visible = enabled
 
-    def toggle_background(self, enabled=None):
-        """
-        Toggles the background for the DebugOverlay.
-
-        :param enabled: whether to enable the background (default None)
-        :type enabled: bool
-        :returns: None
-        """
-
-        # Toggle the background if enabled is None, or set it to the given value
-        if enabled is None:
-            self.background_enabled = not self.background_enabled
-        else:
-            self.background_enabled = enabled
-
-    def draw(self, position='topleft', **variables):
+    def draw(self, position='topleft', background_enabled=True, **variables):
         """
         Draws the DebugOverlay on the Pygame screen.
 
         :param position: the position of the debug text (default 'topleft')
         :type position: str
         :param variables: the variables to display on the overlay
-        :type variables: any
+        :type variables: dict
         :returns: None
         """
 
@@ -110,7 +116,7 @@ class DebugOverlay:
         self.overlay_surface.fill((0, 0, 0, 0))
 
         # Create text surfaces for variables
-        text_surfaces = [self.font.render(f"{var_name}: {value}", True, "white") for var_name, value in variables.items()]
+        text_surfaces = [self.font.render(f"{var_name}: {value}", True, self.font_color) for var_name, value in variables.items()]
 
         # Calculate the total height of the text surfaces
         total_height = len(text_surfaces) * self.font.get_linesize()
@@ -134,7 +140,7 @@ class DebugOverlay:
             if position == 'topright' or position == 'bottomright':
                 x_offset = self.screen.get_width() - text.get_width()
 
-            if self.background_enabled:
+            if background_enabled:
                 text_rect = text.get_rect()
                 x, y = x_offset + text_rect.left, y_offset + text_rect.top
                 w, h = text_rect.width, text_rect.height
