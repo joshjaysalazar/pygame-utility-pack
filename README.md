@@ -29,7 +29,7 @@ A collection of modular add-ons and utilities for Pygame, designed to streamline
 
 ## Contributing
 
-We welcome contributions to the Pygame Utility Pack! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to get started.
+We welcome contributions to the Pygkit! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to get started.
 
 ## License
 
