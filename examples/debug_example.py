@@ -1,6 +1,6 @@
 import pygame
 import sys
-from pygkit.debug.debug_overlay import DebugOverlay
+from pygkit.debug import DebugOverlay
 
 # Constants
 SCREEN_WIDTH = 800
