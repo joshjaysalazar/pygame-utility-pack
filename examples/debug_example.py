@@ -9,15 +9,13 @@ FPS = 60
 
 
 class Game:
-    """
-    A simple game that demonstrates the DebugOverlay class.
-    """
+    """A simple game that demonstrates the DebugOverlay class."""
 
     def __init__(self):
-        """
-        Initializes the game.
-
-        :returns: None
+        """Initializes the game.
+        
+        Returns:
+            None
         """
 
         # Initialize Pygame
@@ -37,10 +35,10 @@ class Game:
         self.sprite = Box(100, 100, 5, 5, 50, 50, "mediumpurple4")
 
     def run(self):
-        """
-        Runs the game. The V key toggles the debug overlay.
-
-        :returns: None
+        """Runs the game. The V key toggles the debug overlay.
+        
+        Returns:
+            None
         """
 
         # Main loop
@@ -51,7 +49,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                
+
                 # Check for V key press, toggle debug visibility if pressed
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
                     # Toggle the debug overlay
@@ -103,38 +101,26 @@ class Box(pygame.sprite.Sprite):
     """
     A simple sprite that moves around the screen.
 
-    :param x: The x-coordinate of the sprite's center.
-    :type x: int
-    :param y: The y-coordinate of the sprite's center.
-    :type y: int
-    :param width: The width of the sprite.
-    :type width: int
-    :param height: The height of the sprite.
-    :type height: int
-    :param color: The color of the sprite.
-    :type color: tuple or str
+    Args:
+        x (int): The x-coordinate of the sprite's center.
+        y (int): The y-coordinate of the sprite's center.
+        x_vel (int): The sprite's velocity in the x-direction.
+        y_vel (int): The sprite's velocity in the y-direction.
+        width (int): The width of the sprite.
+        height (int): The height of the sprite.
+        color (tuple or str): The color of the sprite.
+    
+    Returns:
+        None
     """
 
     def __init__(self, x, y, x_vel, y_vel, width, height, color):
+        """Initializes the sprite.
+        
+        Returns:
+            None
         """
-        Initializes the sprite.
 
-        :param x: The x-coordinate of the sprite's center.
-        :type x: int
-        :param y: The y-coordinate of the sprite's center.
-        :type y: int
-        :param x_vel: The sprite's velocity in the x-direction.
-        :type x_vel: int
-        :param y_vel: The sprite's velocity in the y-direction.
-        :type y_vel: int
-        :param width: The width of the sprite.
-        :type width: int
-        :param height: The height of the sprite.
-        :type height: int
-        :param color: The color of the sprite.
-        :type color: tuple or str
-        :returns: None
-        """
         super().__init__()
 
         # Create the sprite's image and rect
@@ -146,11 +132,12 @@ class Box(pygame.sprite.Sprite):
         self.velocity = pygame.math.Vector2(x_vel, y_vel)
 
     def update(self):
+        """Updates the sprite's position.
+        
+        Returns:
+            None
         """
-        Updates the sprite's position.
 
-        :returns: None
-        """
         # Move the sprite
         self.rect.move_ip(self.velocity)
 

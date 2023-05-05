@@ -2,20 +2,20 @@ import pygame
 
 
 class DebugOverlay:
-    """
-    A debug overlay that displays variables on the Pygame screen.
+    """A debug overlay that displays variables on the Pygame screen.
 
-    :param screen: the Pygame screen to draw on
-    :type screen: pygame.Surface
+    Args:
+        screen (pygame.Surface): The Pygame screen to draw on.
     """
 
     def __init__(self, screen):
-        """
-        Initializes the DebugOverlay with the given Pygame screen.
+        """Initializes the DebugOverlay with the given Pygame screen.
 
-        :param screen: the Pygame screen to draw on
-        :type screen: pygame.Surface
-        :returns: None
+        Args:
+            screen (pygame.Surface): The Pygame screen to draw on.
+
+        Returns:
+            None
         """
 
         # Member variables
@@ -37,14 +37,17 @@ class DebugOverlay:
         )
 
     def set_font(self, **options):
-        """
-        Sets the font used by the DebugOverlay.
+        """Sets the font used by the DebugOverlay.
 
-        :param options: the options for the font
-        :type options: dict
-        :raises ValueError: if an invalid option is provided
-        :raises TypeError: if an option has an invalid type
-        :returns: None
+        Args:
+            **options: The options for the font.
+
+        Raises:
+            ValueError: If an invalid option is provided.
+            TypeError: If an option has an invalid type.
+
+        Returns:
+            None
         """
 
         default_options = {
@@ -84,12 +87,14 @@ class DebugOverlay:
         self.font_color = default_options['color']
 
     def toggle_visible(self, enabled=None):
-        """
-        Toggles the visibility of the DebugOverlay.
+        """Toggles the visibility of the DebugOverlay.
 
-        :param enabled: whether to enable the overlay (default None)
-        :type enabled: bool
-        :returns: None
+        Args:
+            enabled (bool, optional): Whether to enable the overlay 
+                (default None).
+
+        Returns:
+            None
         """
 
         # Toggle the visibility if enabled is None, or set it to the given value
@@ -99,14 +104,20 @@ class DebugOverlay:
             self.visible = enabled
 
     def draw(self, position='topleft', background_enabled=True, **variables):
-        """
-        Draws the DebugOverlay on the Pygame screen.
+        """Draws the DebugOverlay on the Pygame screen.
 
-        :param position: the position of the debug text (default 'topleft')
-        :type position: str
-        :param variables: the variables to display on the overlay
-        :type variables: dict
-        :returns: None
+        Args:
+            position (str, optional): The position of the debug text 
+                (default 'topleft').
+            background_enabled (bool, optional): Whether to draw a background 
+                behind the text (default True).
+            **variables: The variables to display on the overlay.
+
+        Raises:
+            ValueError: If an invalid position is provided.
+
+        Returns:
+            None
         """
 
         # Return if the overlay is not visible
