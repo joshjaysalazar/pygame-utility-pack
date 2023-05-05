@@ -1,6 +1,6 @@
 import pygame
 import sys
-from pygkit.debug import DebugOverlay
+from pygkit.debug import DebugOverlay, InputOverlay
 
 # Constants
 SCREEN_WIDTH = 800
@@ -28,8 +28,19 @@ class Game:
         # Clock for controlling framerate
         self.clock = pygame.time.Clock()
 
-        # Initialize DebugOverlay
-        self.debug = DebugOverlay(self.screen)
+        # Initialize overlays
+        self.debug_overlay = DebugOverlay(self.screen)
+        expected_inputs = [
+            pygame.K_UP,
+            pygame.K_DOWN,
+            pygame.K_LEFT,
+            pygame.K_RIGHT,
+            pygame.K_SPACE,
+        ]
+        self.input_overlay = InputOverlay(
+            self.screen,
+            expected_inputs=expected_inputs
+        )
 
         # Create a Box instance
         self.sprite = Box(100, 100, 5, 5, 50, 50, "mediumpurple4")
@@ -53,7 +64,7 @@ class Game:
                 # Check for V key press, toggle debug visibility if pressed
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
                     # Toggle the debug overlay
-                    self.debug.visible = not self.debug.visible
+                    self.debug_overlay.visible = not self.debug_overlay.visible
 
             # Draw background
             self.screen.fill("papayawhip")
@@ -63,14 +74,14 @@ class Game:
             self.screen.blit(self.sprite.image, self.sprite.rect)
 
             # Draw the top-left debug overlay
-            self.debug.set_font(
+            self.debug_overlay.set_font(
                 name="Courier New",
                 size=16,
                 bold=True,
                 italic=False,
                 color="white"
             )
-            self.debug.draw(
+            self.debug_overlay.draw(
                 box_img=self.sprite.image,
                 box_x=self.sprite.rect.x,
                 box_y=self.sprite.rect.y,
@@ -78,19 +89,22 @@ class Game:
             )
 
             # Draw the bottom-right debug overlay
-            self.debug.set_font(
+            self.debug_overlay.set_font(
                 name="Arial",
                 size=20,
                 bold=False,
                 italic=True,
                 color="navy"
             )
-            self.debug.draw(
+            self.debug_overlay.draw(
                 position="bottomright",
                 background_enabled=False,
                 fps=round(self.clock.get_fps(), 2),
                 test_message="This is a test message."
             )
+
+            # Draw the input overlay in the bottom-left corner
+            self.input_overlay.draw(position="bottomleft")
 
             # Update the display and limit the framerate
             pygame.display.flip()
