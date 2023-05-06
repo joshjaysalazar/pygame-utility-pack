@@ -178,6 +178,6 @@ class Box(pygame.sprite.Sprite):
 
 
 # Create the game object and run it
-if __name__ == '__main__':
+if __name__ == "__main__":
     game = Game()
     game.run()
