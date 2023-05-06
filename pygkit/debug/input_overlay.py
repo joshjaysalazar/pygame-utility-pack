@@ -49,7 +49,7 @@ class InputOverlay(DebugOverlay):
         for input_code in inputs_to_draw:
             input_name = pygame.key.name(input_code)
             input_detected = input_code in self.current_inputs
-            input_color = self.font_color if input_detected else 'grey'
+            input_color = self.font_color if input_detected else "grey"
             text = self.font.render(input_name, True, input_color)
             text_surfaces.append(text)
 
@@ -57,25 +57,25 @@ class InputOverlay(DebugOverlay):
         total_height = len(text_surfaces) * self.font.get_linesize()
 
         # Determine the x and y offsets based on the position
-        if position == 'topleft':
+        if position == "topleft":
             x_offset = 0
             y_offset = 0
-        elif position == 'topright':
+        elif position == "topright":
             y_offset = 0
-        elif position == 'bottomleft':
+        elif position == "bottomleft":
             x_offset = 0
             y_offset = self.screen.get_height() - total_height
-        elif position == 'bottomright':
+        elif position == "bottomright":
             y_offset = self.screen.get_height() - total_height
         else:
             raise ValueError(
-                "Invalid position. Must be 'topleft', 'topright', " \
-                "'bottomleft', or 'bottomright'."
+                "Invalid position. Must be \"topleft\", \"topright\", " \
+                "\"bottomleft\", or \"bottomright\"."
             )
 
         # Draw the text surfaces on the overlay surface
         for text in text_surfaces:
-            if position == 'topright' or position == 'bottomright':
+            if position == "topright" or position == "bottomright":
                 x_offset = self.screen.get_width() - text.get_width()
 
             if background_enabled:
