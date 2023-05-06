@@ -17,7 +17,10 @@ class InputOverlay(DebugOverlay):
         if self.expected_inputs:
             self.keys_to_check = self.expected_inputs
         else:
-            self.keys_to_check = [getattr(pygame, key) for key in dir(pygame) if key.startswith("K_")]
+            self.keys_to_check = []
+            for key in dir(pygame):
+                if key.startswith("K_"):
+                    self.keys_to_check.append(getattr(pygame, key))
 
     def update_current_inputs(self):
         pressed_keys = pygame.key.get_pressed()
