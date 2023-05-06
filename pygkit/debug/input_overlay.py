@@ -51,8 +51,7 @@ class InputOverlay(DebugOverlay):
         text_surfaces = []
         for input_code in inputs_to_draw:
             input_name = pygame.key.name(input_code)
-            input_detected = input_code in self.current_inputs
-            if input_detected:
+            if input_code in self.current_inputs:
                 input_color = self.font_color
             else:
                 input_color = "grey"
