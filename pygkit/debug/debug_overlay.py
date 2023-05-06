@@ -103,6 +103,28 @@ class DebugOverlay:
         else:
             self.visible = enabled
 
+    def get_text_surfaces(self, **variables):
+        """Returns a list of text surfaces for the given variables.
+
+        Args:
+            **variables: The variables to display on the overlay.
+
+        Returns:
+            list: The list of text surfaces.
+        """
+
+        # Create text surfaces for variables
+        text_surfaces = []
+        for var_name, value in variables.items():
+            text = self.font.render(
+                f"{var_name}: {value}",
+                True,
+                self.font_color
+            )
+            text_surfaces.append(text)
+
+        return text_surfaces
+
     def draw(self, position="topleft", background_enabled=True, **variables):
         """Draws the DebugOverlay on the Pygame screen.
 
@@ -128,14 +150,7 @@ class DebugOverlay:
         self.overlay_surface.fill((0, 0, 0, 0))
 
         # Create text surfaces for variables
-        text_surfaces = []
-        for var_name, value in variables.items():
-            text = self.font.render(
-                f"{var_name}: {value}",
-                True,
-                self.font_color
-            )
-            text_surfaces.append(text)
+        text_surfaces = self.get_text_surfaces(**variables)
 
         # Calculate the total height of the text surfaces
         total_height = len(text_surfaces) * self.font.get_linesize()

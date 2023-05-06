@@ -31,15 +31,8 @@ class InputOverlay(DebugOverlay):
             else:
                 self.current_inputs.discard(key_code)
 
-    def draw(self, position="topleft", background_enabled=True):
-        # Return if the overlay is not visible
-        if not self.visible:
-            return
-        
+    def get_text_surfaces(self):
         self.update_current_inputs()
-
-        # Clear the overlay surface
-        self.overlay_surface.fill((0, 0, 0, 0))
 
         # Set the inputs to draw
         if self.expected_inputs:
@@ -57,40 +50,5 @@ class InputOverlay(DebugOverlay):
                 input_color = "grey"
             text = self.font.render(input_name, True, input_color)
             text_surfaces.append(text)
-
-        # Calculate the total height of the text surfaces
-        total_height = len(text_surfaces) * self.font.get_linesize()
-
-        # Determine the x and y offsets based on the position
-        if position == "topleft":
-            x_offset = 0
-            y_offset = 0
-        elif position == "topright":
-            y_offset = 0
-        elif position == "bottomleft":
-            x_offset = 0
-            y_offset = self.screen.get_height() - total_height
-        elif position == "bottomright":
-            y_offset = self.screen.get_height() - total_height
-        else:
-            raise ValueError(
-                "Invalid position. Must be \"topleft\", \"topright\", " \
-                "\"bottomleft\", or \"bottomright\"."
-            )
-
-        # Draw the text surfaces on the overlay surface
-        for text in text_surfaces:
-            if position == "topright" or position == "bottomright":
-                x_offset = self.screen.get_width() - text.get_width()
-
-            if background_enabled:
-                text_rect = text.get_rect()
-                x, y = x_offset + text_rect.left, y_offset + text_rect.top
-                w, h = text_rect.width, text_rect.height
-                pygame.draw.rect(self.overlay_surface, "black", (x, y, w, h))
-
-            self.overlay_surface.blit(text, (x_offset, y_offset))
-            y_offset += self.font.get_linesize()
-
-        # Draw the overlay surface on the Pygame screen
-        self.screen.blit(self.overlay_surface, (0, 0))
+        
+        return text_surfaces
