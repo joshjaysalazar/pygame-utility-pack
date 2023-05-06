@@ -87,25 +87,5 @@ class InputOverlay(DebugOverlay):
             self.overlay_surface.blit(text, (x_offset, y_offset))
             y_offset += self.font.get_linesize()
 
-        # x_offset, y_offset = 0, 0
-        # space_between_keys = 5
-        # if position == 'topleft':
-        #     x_offset = 0
-        #     y_offset = 0
-        # elif position == 'topright':
-        #     y_offset = 0
-        # elif position == 'bottomleft':
-        #     x_offset = 0
-        #     y_offset = self.screen.get_height() - self.font.get_linesize()
-        # elif position == 'bottomright':
-        #     y_offset = self.screen.get_height() - self.font.get_linesize()
-
-        # for text in text_surfaces:
-        #     if position == 'topright' or position == 'bottomright':
-        #         x_offset = self.screen.get_width() - text.get_width() * len(text_surfaces) - space_between_keys * (len(text_surfaces) - 1)
-
-        #     self.overlay_surface.blit(text, (x_offset, y_offset))
-        #     x_offset += text.get_width() + space_between_keys
-
         # Draw the overlay surface on the Pygame screen
         self.screen.blit(self.overlay_surface, (0, 0))
