@@ -104,6 +104,13 @@ class Game:
             )
 
             # Draw the input overlay in the bottom-left corner
+            self.input_overlay.set_font(
+                name="Arial",
+                size=16,
+                bold=True,
+                italic=False,
+                color="yellow"
+            )
             self.input_overlay.draw(position="bottomleft")
 
             # Update the display and limit the framerate
