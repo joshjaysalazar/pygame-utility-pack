@@ -13,15 +13,16 @@ class InputOverlay:
         )
         self.current_inputs = set()
 
+        # Setup keyboard keys to check
+        if self.expected_inputs:
+            self.keys_to_check = self.expected_inputs
+        else:
+            self.keys_to_check = [getattr(pygame, key) for key in dir(pygame) if key.startswith("K_")]
+
     def update_current_inputs(self):
         pressed_keys = pygame.key.get_pressed()
-        
-        if self.expected_inputs:
-            keys_to_check = self.expected_inputs
-        else:
-            keys_to_check = range(len(pressed_keys))
 
-        for key_code in keys_to_check:
+        for key_code in self.keys_to_check:
             if pressed_keys[key_code]:
                 self.current_inputs.add(key_code)
             else:
