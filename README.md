@@ -2,6 +2,8 @@
 
 A collection of modular add-ons and utilities for Pygame, designed to streamline and enhance game development with easy-to-use features.
 
+**Note**: This library is still in the early stages of development, and as such, certain functionality may change with updates.
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -13,19 +15,50 @@ A collection of modular add-ons and utilities for Pygame, designed to streamline
 
 ## Installation
 
-(Provide instructions on how to install your library, either through pip or manually.)
+Pygkit is currently in early development and cannot yet be installed via PyPi. To install it, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Navigate to the base folder of your local clone in the terminal.
+3. Type `python -m pip install -e .` to install it (replacing `python` with the appropriate name for the Python version to which you wish to install the library—on Windows usually `py.exe`, and on Mac/Linux usually `python3`).
 
 ## Usage
 
-(Provide a basic example or instructions on how to import and use your library in a Pygame project.)
+To use Pygkit in your Pygame project, simply import the desired module(s) and use them alongside your existing Pygame code. Here's an example of importing and using the debug module:
+
+```python
+import pygame
+import pygkit
+
+pygame.init()
+
+### Pygame setup here ###
+
+debug_overlay = pygkit.debug.DebugOverlay(screen)
+
+while True: 
+
+    ### Game loop logic here ###
+
+    debug_overlay.draw(
+        position="topright",
+        background_enabled=False,
+        test_message="This is a test message."
+    )
+```
 
 ## Modules
 
-(Briefly describe each category and module included in your library, along with their purpose and functionality.)
+Pygkit will be designed to work alongside Pygame, providing additional functionality through various modules. Here are a few of the planned modules:
+
+- **Sprite**: A sprite sheet loader, an animated sprite class, etc.
+- **AI**: Tools and algorithms to help you create engaging game AI.
+- **GUI**: Components for creating menus, text boxes, and other user interface elements.
+- **Debug**: Various debug overlays that can be used to display real-time game information during development.
+- *And more to come!*
 
 ## Examples
 
-(Link to or provide examples showcasing how to use your library's features in various scenarios.)
+You can find examples showcasing how to use Pygkit's features in various scenarios in the `examples` folder of the repository.
 
 ## Contributing
 
