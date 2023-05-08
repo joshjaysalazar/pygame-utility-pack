@@ -14,13 +14,63 @@ class InputOverlay(DebugOverlay):
         ):
         super().__init__(screen)
 
+        # Check for invalid arguments
+        if expected_keys is not None:
+            if not isinstance(expected_keys, list):
+                raise TypeError(
+                    "expected_keys must be a list of Pygame key constants"
+                )
+        if expected_mouse_buttons is not None:
+            if not isinstance(expected_mouse_buttons, list):
+                raise TypeError(
+                    "expected_mouse_buttons must be a list of integers"
+                )
+        joystick_button_error = "expected_joystick_axes must be a list of " \
+            "lists, with each inner list containing two integers, the first " \
+            "being the joystick number and the second being the axis number"
+        if expected_joystick_buttons is not None:
+            if not isinstance(expected_joystick_buttons, (list, tuple)):
+                raise TypeError(joystick_button_error)
+            for button in expected_joystick_buttons:
+                if not isinstance(button, (list, tuple)):
+                    raise TypeError(joystick_button_error)
+                if len(button) != 2:
+                    raise ValueError(joystick_button_error)
+                if not isinstance(button[0], int):
+                    raise TypeError(joystick_button_error)
+                if not isinstance(button[1], int):
+                    raise TypeError(joystick_button_error)
+        joystick_axis_error = "expected_joystick_axes must be a list of " \
+            "lists, with each inner list containing two integers, the first " \
+            "being the joystick number and the second being the axis number"
+        if expected_joystick_axes is not None:
+            if not isinstance(expected_joystick_axes, (list, tuple)):
+                raise TypeError(joystick_axis_error)
+            for axis in expected_joystick_axes:
+                if not isinstance(axis, (list, tuple)):
+                    raise TypeError(joystick_axis_error)
+                if len(axis) != 2:
+                    raise ValueError(joystick_axis_error)
+                if not isinstance(axis[0], int):
+                    raise TypeError(joystick_axis_error)
+                if not isinstance(axis[1], int):
+                    raise TypeError(joystick_axis_error)
+
         # Member variables
         self.screen = screen
         self.expected_keys = expected_keys
         self.expected_mouse_buttons = expected_mouse_buttons
         self.show_mouse_position = show_mouse_position
-        self.expected_joystick_buttons = expected_joystick_buttons
-        self.expected_joystick_axes = expected_joystick_axes
+
+        # Turn contents into tuples for compatibilty with set
+        self.expected_joystick_buttons = []
+        for button in expected_joystick_buttons:
+            button = tuple(button)
+            self.expected_joystick_buttons.append(button)
+        self.expected_joystick_axes = []
+        for axis in expected_joystick_axes:
+            axis = tuple(axis)
+            self.expected_joystick_axes.append(axis)
 
         # Set of currently active inputs
         self.current_keys = set()
@@ -38,7 +88,9 @@ class InputOverlay(DebugOverlay):
 
         # Setup joystick buttons to check
         pygame.joystick.init()
-        self.joysticks = [pygame.joystick.Joystick(x) for x in range(pygame.joystick.get_count())] 
+        self.joysticks = []
+        for x in range(pygame.joystick.get_count()):
+            self.joysticks.append(pygame.joystick.Joystick(x))
 
     def update_current_inputs(self):
         # Update keyboard inputs
@@ -124,7 +176,7 @@ class InputOverlay(DebugOverlay):
             text = self.font.render(button_name, True, button_color)
             text_surfaces.append(text)
         
-        # Create surfaces for expected joystick axes (given as "Joystick x Axis y: value")
+        # Create surfaces for expected joystick axes
         if self.expected_joystick_axes:
             for axis_code in self.expected_joystick_axes:
                 value = self.joysticks[axis_code[0]].get_axis(axis_code[1])

@@ -41,10 +41,12 @@ class Game:
             expected_mouse_buttons=[0, 2],
             show_mouse_position=True,
             expected_joystick_buttons=[
-                (0, 0),
-                (0, 1)
+                [0, 0],
+                [0, 1]
             ],
-            expected_joystick_axes=[(0, 0)]
+            expected_joystick_axes=[
+                [0, 0]
+            ]
         )
 
         # Set overlay fonts (debug_overlay uses default font)
