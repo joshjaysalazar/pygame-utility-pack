@@ -27,7 +27,7 @@ class InputOverlay(DebugOverlay):
                 )
         joystick_button_error = "expected_joystick_axes must be a list of " \
             "lists, with each inner list containing two integers, the first " \
-            "being the joystick number and the second being the axis number"
+            "being the joystick number and the second being the button number"
         if expected_joystick_buttons is not None:
             if not isinstance(expected_joystick_buttons, (list, tuple)):
                 raise TypeError(joystick_button_error)
