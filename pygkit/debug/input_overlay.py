@@ -24,7 +24,6 @@ class InputOverlay(DebugOverlay):
         
     def __init__(
             self,
-            screen,
             expected_keys=None,
             expected_mouse_buttons=None,
             show_mouse_position=False,
@@ -63,7 +62,7 @@ class InputOverlay(DebugOverlay):
             None
         """
 
-        super().__init__(screen)
+        super().__init__()
 
         # Check for invalid arguments
         if expected_keys is not None:
@@ -110,7 +109,6 @@ class InputOverlay(DebugOverlay):
                     raise TypeError(joystick_axis_error)
 
         # Member variables
-        self.screen = screen
         self.expected_keys = expected_keys
         self.expected_mouse_buttons = expected_mouse_buttons
         self.show_mouse_position = show_mouse_position

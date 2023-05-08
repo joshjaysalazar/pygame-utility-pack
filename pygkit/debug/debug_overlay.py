@@ -8,18 +8,15 @@ class DebugOverlay:
         screen (pygame.Surface): The Pygame screen to draw on.
     """
 
-    def __init__(self, screen):
+    def __init__(self):
         """Initializes the DebugOverlay with the given Pygame screen.
-
-        Args:
-            screen (pygame.Surface): The Pygame screen to draw on.
 
         Returns:
             None
         """
 
         # Member variables
-        self.screen = screen
+        self.screen = pygame.display.get_surface()
 
         # Default font for the DebugOverlay
         self.font = pygame.font.SysFont("Courier New", 16, bold=True)

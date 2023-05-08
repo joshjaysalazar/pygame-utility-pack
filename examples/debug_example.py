@@ -29,9 +29,8 @@ class Game:
         self.clock = pygame.time.Clock()
 
         # Initialize overlays
-        self.debug_overlay = DebugOverlay(self.screen)
+        self.debug_overlay = DebugOverlay()
         self.input_overlay = InputOverlay(
-            self.screen,
             expected_keys=[
                 pygame.K_UP,
                 pygame.K_DOWN,
