@@ -39,7 +39,11 @@ class Game:
                 pygame.K_RIGHT
             ],
             expected_mouse_buttons=[0, 2],
-            show_mouse_position=True
+            show_mouse_position=True,
+            expected_joystick_buttons=[
+                (0, 0),
+                (0, 1)
+            ]
         )
 
         # Set overlay fonts (debug_overlay uses default font)
