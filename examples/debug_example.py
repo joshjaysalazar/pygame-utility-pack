@@ -1,6 +1,6 @@
 import pygame
 import sys
-from pygkit.debug import DebugOverlay
+from pygkit.debug import DebugOverlay, InputOverlay
 
 # Constants
 SCREEN_WIDTH = 800
@@ -28,14 +28,41 @@ class Game:
         # Clock for controlling framerate
         self.clock = pygame.time.Clock()
 
-        # Initialize DebugOverlay
-        self.debug = DebugOverlay(self.screen)
+        # Initialize overlays
+        self.debug_overlay = DebugOverlay()
+        self.input_overlay = InputOverlay(
+            expected_keys=[
+                pygame.K_UP,
+                pygame.K_DOWN,
+                pygame.K_LEFT,
+                pygame.K_RIGHT
+            ],
+            expected_mouse_buttons=[0, 2],
+            show_mouse_position=True,
+            expected_joystick_buttons=[
+                [0, 0],
+                [0, 1]
+            ],
+            expected_joystick_axes=[
+                [0, 0]
+            ]
+        )
+
+        # Set overlay fonts (debug_overlay uses default font)
+        self.input_overlay.set_font(
+                name="Arial",
+                size=16,
+                bold=True,
+                italic=False,
+                color="navy"
+            )
 
         # Create a Box instance
         self.sprite = Box(100, 100, 5, 5, 50, 50, "mediumpurple4")
 
     def run(self):
-        """Runs the game. The V key toggles the debug overlay.
+        """Runs the game. The 1 key toggles the debug overlay, the 2 key toggles
+        the input overlay.
         
         Returns:
             None
@@ -50,10 +77,13 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-                # Check for V key press, toggle debug visibility if pressed
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
-                    # Toggle the debug overlay
-                    self.debug.visible = not self.debug.visible
+                # Check for 1 key press, toggle debug visibility if pressed
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+                    self.debug_overlay.visible = not self.debug_overlay.visible
+                
+                # Check for 2 key press, toggle input visibility if pressed
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
+                    self.input_overlay.visible = not self.input_overlay.visible
 
             # Draw background
             self.screen.fill("papayawhip")
@@ -62,35 +92,22 @@ class Game:
             self.sprite.update()
             self.screen.blit(self.sprite.image, self.sprite.rect)
 
-            # Draw the top-left debug overlay
-            self.debug.set_font(
-                name="Courier New",
-                size=16,
-                bold=True,
-                italic=False,
-                color="white"
-            )
-            self.debug.draw(
-                box_img=self.sprite.image,
+            # Draw the debug overlay in the top-left corner
+            self.debug_overlay.draw(
+                position="topleft",
+                background_enabled=True,
+                test_message="This is a test message.",
+                fps=round(self.clock.get_fps(), 2),
                 box_x=self.sprite.rect.x,
                 box_y=self.sprite.rect.y,
                 box_vel=self.sprite.velocity
             )
 
-            # Draw the bottom-right debug overlay
-            self.debug.set_font(
-                name="Arial",
-                size=20,
-                bold=False,
-                italic=True,
-                color="navy"
-            )
-            self.debug.draw(
-                position="bottomright",
-                background_enabled=False,
-                fps=round(self.clock.get_fps(), 2),
-                test_message="This is a test message."
-            )
+            # Draw the input overlay in the bottom-left corner
+            self.input_overlay.draw(
+                position="bottomleft",
+                background_enabled=False
+                )
 
             # Update the display and limit the framerate
             pygame.display.flip()
@@ -157,6 +174,6 @@ class Box(pygame.sprite.Sprite):
 
 
 # Create the game object and run it
-if __name__ == '__main__':
+if __name__ == "__main__":
     game = Game()
     game.run()

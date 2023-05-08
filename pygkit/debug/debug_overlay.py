@@ -8,21 +8,18 @@ class DebugOverlay:
         screen (pygame.Surface): The Pygame screen to draw on.
     """
 
-    def __init__(self, screen):
+    def __init__(self):
         """Initializes the DebugOverlay with the given Pygame screen.
-
-        Args:
-            screen (pygame.Surface): The Pygame screen to draw on.
 
         Returns:
             None
         """
 
         # Member variables
-        self.screen = screen
+        self.screen = pygame.display.get_surface()
 
         # Default font for the DebugOverlay
-        self.font = pygame.font.SysFont('Courier New', 16, bold=True)
+        self.font = pygame.font.SysFont("Courier New", 16, bold=True)
 
         # Variable to track font color
         self.font_color = "white"
@@ -51,11 +48,11 @@ class DebugOverlay:
         """
 
         default_options = {
-            'name': 'Courier New',
-            'size': 14,
-            'bold': False,
-            'italic': False,
-            'color': 'white'
+            "name": "Courier New",
+            "size": 14,
+            "bold": False,
+            "italic": False,
+            "color": "white"
         }
 
         # Update the default options with the provided options
@@ -63,28 +60,28 @@ class DebugOverlay:
             if key in default_options:
                 default_options[key] = value
             else:
-                raise ValueError(f"Invalid option '{key}'")
+                raise ValueError(f"Invalid option \"{key}\"")
 
         # Check for invalid arguments
-        if not isinstance(default_options['name'], str):
+        if not isinstance(default_options["name"], str):
             raise TypeError("Font name must be a string")
-        if not isinstance(default_options['size'], int):
+        if not isinstance(default_options["size"], int):
             raise TypeError("Font size must be an integer")
-        if not isinstance(default_options['bold'], bool):
+        if not isinstance(default_options["bold"], bool):
             raise TypeError("Font bold flag must be a boolean")
-        if not isinstance(default_options['italic'], bool):
+        if not isinstance(default_options["italic"], bool):
             raise TypeError("Font italic flag must be a boolean")
-        if not isinstance(default_options['color'], str):
+        if not isinstance(default_options["color"], str):
             raise TypeError("Font color must be a string")
 
         # Set the font and color
         self.font = pygame.font.SysFont(
-            default_options['name'],
-            default_options['size'],
-            default_options['bold'],
-            default_options['italic']
+            default_options["name"],
+            default_options["size"],
+            default_options["bold"],
+            default_options["italic"]
         )
-        self.font_color = default_options['color']
+        self.font_color = default_options["color"]
 
     def toggle_visible(self, enabled=None):
         """Toggles the visibility of the DebugOverlay.
@@ -103,12 +100,34 @@ class DebugOverlay:
         else:
             self.visible = enabled
 
-    def draw(self, position='topleft', background_enabled=True, **variables):
+    def get_text_surfaces(self, **variables):
+        """Returns a list of text surfaces for the given variables.
+
+        Args:
+            **variables: The variables to display on the overlay.
+
+        Returns:
+            list: The list of text surfaces.
+        """
+
+        # Create text surfaces for variables
+        text_surfaces = []
+        for var_name, value in variables.items():
+            text = self.font.render(
+                f"{var_name}: {value}",
+                True,
+                self.font_color
+            )
+            text_surfaces.append(text)
+
+        return text_surfaces
+
+    def draw(self, position="topleft", background_enabled=True, **variables):
         """Draws the DebugOverlay on the Pygame screen.
 
         Args:
             position (str, optional): The position of the debug text 
-                (default 'topleft').
+                (default "topleft").
             background_enabled (bool, optional): Whether to draw a background 
                 behind the text (default True).
             **variables: The variables to display on the overlay.
@@ -128,38 +147,31 @@ class DebugOverlay:
         self.overlay_surface.fill((0, 0, 0, 0))
 
         # Create text surfaces for variables
-        text_surfaces = []
-        for var_name, value in variables.items():
-            text = self.font.render(
-                f"{var_name}: {value}",
-                True,
-                self.font_color
-            )
-            text_surfaces.append(text)
+        text_surfaces = self.get_text_surfaces(**variables)
 
         # Calculate the total height of the text surfaces
         total_height = len(text_surfaces) * self.font.get_linesize()
 
         # Determine the x and y offsets based on the position
-        if position == 'topleft':
+        if position == "topleft":
             x_offset = 0
             y_offset = 0
-        elif position == 'topright':
+        elif position == "topright":
             y_offset = 0
-        elif position == 'bottomleft':
+        elif position == "bottomleft":
             x_offset = 0
             y_offset = self.screen.get_height() - total_height
-        elif position == 'bottomright':
+        elif position == "bottomright":
             y_offset = self.screen.get_height() - total_height
         else:
             raise ValueError(
-                "Invalid position. Must be 'topleft', 'topright', " \
-                "'bottomleft', or 'bottomright'."
+                "Invalid position. Must be \"topleft\", \"topright\", " \
+                "\"bottomleft\", or \"bottomright\"."
             )
 
         # Draw the text surfaces on the overlay surface
         for text in text_surfaces:
-            if position == 'topright' or position == 'bottomright':
+            if position == "topright" or position == "bottomright":
                 x_offset = self.screen.get_width() - text.get_width()
 
             if background_enabled:
