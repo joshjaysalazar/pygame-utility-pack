@@ -9,7 +9,8 @@ class InputOverlay(DebugOverlay):
             expected_keys=None,
             expected_mouse_buttons=None,
             show_mouse_position=False,
-            expected_joystick_buttons=None
+            expected_joystick_buttons=None,
+            expected_joystick_axes=None
         ):
         super().__init__(screen)
 
@@ -19,6 +20,7 @@ class InputOverlay(DebugOverlay):
         self.expected_mouse_buttons = expected_mouse_buttons
         self.show_mouse_position = show_mouse_position
         self.expected_joystick_buttons = expected_joystick_buttons
+        self.expected_joystick_axes = expected_joystick_axes
 
         # Set of currently active inputs
         self.current_keys = set()
@@ -121,5 +123,15 @@ class InputOverlay(DebugOverlay):
                 button_color = "grey"
             text = self.font.render(button_name, True, button_color)
             text_surfaces.append(text)
+        
+        # Create surfaces for expected joystick axes (given as "Joystick x Axis y: value")
+        if self.expected_joystick_axes:
+            for axis_code in self.expected_joystick_axes:
+                value = self.joysticks[axis_code[0]].get_axis(axis_code[1])
+                joy_id = axis_code[0]
+                ax_id = axis_code[1]
+                axis_name = f"Joystick {joy_id} Axis {ax_id}: {value:.2f}"
+                text = self.font.render(axis_name, True, self.font_color)
+                text_surfaces.append(text)
         
         return text_surfaces

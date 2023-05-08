@@ -43,7 +43,8 @@ class Game:
             expected_joystick_buttons=[
                 (0, 0),
                 (0, 1)
-            ]
+            ],
+            expected_joystick_axes=[(0, 0)]
         )
 
         # Set overlay fonts (debug_overlay uses default font)
