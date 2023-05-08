@@ -55,7 +55,8 @@ class Game:
         self.sprite = Box(100, 100, 5, 5, 50, 50, "mediumpurple4")
 
     def run(self):
-        """Runs the game. The V key toggles the debug overlay.
+        """Runs the game. The 1 key toggles the debug overlay, the 2 key toggles
+        the input overlay.
         
         Returns:
             None
@@ -70,10 +71,13 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-                # Check for V key press, toggle debug visibility if pressed
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_v:
-                    # Toggle the debug overlay
+                # Check for 1 key press, toggle debug visibility if pressed
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
                     self.debug_overlay.visible = not self.debug_overlay.visible
+                
+                # Check for 2 key press, toggle input visibility if pressed
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
+                    self.input_overlay.visible = not self.input_overlay.visible
 
             # Draw background
             self.screen.fill("papayawhip")
