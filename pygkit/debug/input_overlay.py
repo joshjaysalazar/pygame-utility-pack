@@ -41,7 +41,7 @@ class InputOverlay(DebugOverlay):
                 self.current_keys.discard(key_code)
         
         # Update mouse inputs
-        pressed_mouse_buttons = pygame.mouse.get_pressed()
+        pressed_mouse_buttons = pygame.mouse.get_pressed(num_buttons=5)
         for button_code in range(len(pressed_mouse_buttons)):
             if pressed_mouse_buttons[button_code]:
                 self.current_mouse_buttons.add(button_code)
