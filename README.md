@@ -29,11 +29,9 @@ To use Pygkit in your Pygame project, simply import the desired module(s) and us
 import pygame
 import pygkit
 
-pygame.init()
-
 ### Pygame setup here ###
 
-debug_overlay = pygkit.debug.DebugOverlay(screen)
+debug_overlay = pygkit.debug.DebugOverlay()
 
 while True: 
 
