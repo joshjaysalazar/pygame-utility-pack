@@ -32,13 +32,14 @@ class Game:
         self.debug_overlay = DebugOverlay(self.screen)
         self.input_overlay = InputOverlay(
             self.screen,
-            expected_inputs=[
+            expected_keys=[
                 pygame.K_UP,
                 pygame.K_DOWN,
                 pygame.K_LEFT,
-                pygame.K_RIGHT,
-                pygame.K_SPACE
-            ]
+                pygame.K_RIGHT
+            ],
+            expected_mouse_buttons=[0, 2],
+            show_mouse_position=True
         )
 
         # Set overlay fonts (debug_overlay uses default font)
@@ -47,7 +48,7 @@ class Game:
                 size=16,
                 bold=True,
                 italic=False,
-                color="yellow"
+                color="navy"
             )
 
         # Create a Box instance
@@ -93,7 +94,10 @@ class Game:
             )
 
             # Draw the input overlay in the bottom-left corner
-            self.input_overlay.draw(position="bottomleft")
+            self.input_overlay.draw(
+                position="bottomleft",
+                background_enabled=False
+                )
 
             # Update the display and limit the framerate
             pygame.display.flip()
