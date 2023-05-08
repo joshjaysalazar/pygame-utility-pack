@@ -62,7 +62,7 @@ You can find examples showcasing how to use Pygkit's features in various scenari
 
 ## Contributing
 
-We welcome contributions to the Pygkit! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to get started.
+We welcome contributions to Pygkit! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information on how to get started.
 
 ## License
 
