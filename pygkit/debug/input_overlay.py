@@ -25,6 +25,8 @@ class InputOverlay(DebugOverlay):
                 raise TypeError(
                     "expected_mouse_buttons must be a list of integers"
                 )
+        if not isinstance(show_mouse_position, bool):
+            raise TypeError("show_mouse_position must be a boolean")
         joystick_button_error = "expected_joystick_axes must be a list of " \
             "lists, with each inner list containing two integers, the first " \
             "being the joystick number and the second being the button number"
