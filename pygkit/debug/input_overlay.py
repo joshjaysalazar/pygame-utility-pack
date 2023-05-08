@@ -3,6 +3,25 @@ from pygkit.debug import DebugOverlay
 
 
 class InputOverlay(DebugOverlay):
+    """
+    A DebugOverlay class that displays input information.
+
+    Args:
+        screen (pygame.Surface): The surface to draw on.
+        expected_keys (list, optional): A list of Pygame key constants to
+            monitor.
+        expected_mouse_buttons (list, optional): A list of integers representing
+            mouse buttons to monitor.
+        show_mouse_position (bool, optional): If True, shows the current mouse
+            position.
+        expected_joystick_buttons (list, optional): A list of lists, where each
+            inner list contains two integers representing the joystick number
+            and button number to monitor.
+        expected_joystick_axes (list, optional): A list of lists, where each
+            inner list contains two integers representing the joystick number
+            and axis number to monitor.
+    """
+        
     def __init__(
             self,
             screen,
@@ -12,6 +31,38 @@ class InputOverlay(DebugOverlay):
             expected_joystick_buttons=None,
             expected_joystick_axes=None
         ):
+        """
+        Initializes a new InputOverlay object.
+
+        Args:
+            screen (pygame.Surface): The surface to draw on.
+            expected_keys (list of pygame constants): A list of Pygame key
+                constants to monitor.
+            expected_mouse_buttons (list of int): A list of integers
+                representing mouse buttons to monitor.
+            show_mouse_position (bool): If True, shows the current mouse
+                position.
+            expected_joystick_buttons (list of tuple): A list of tuples, where
+                each tuple contains two integers representing the joystick
+                number and button number to monitor.
+            expected_joystick_axes (list of tuple): A list of tuples, where each
+                tuple contains two integers representing the joystick number and
+                axis number to monitor.
+
+        Raises:
+            TypeError: If expected_keys is not a list of Pygame key constants,
+                expected_mouse_buttons is not a list of integers, or
+                show_mouse_position is not a boolean.
+            ValueError: If the length of the inner list in
+                expected_joystick_buttons or expected_joystick_axes is not equal
+                to 2.
+            TypeError: If expected_joystick_buttons or expected_joystick_axes
+                are not lists of tuples containing two integers.
+
+        Returns:
+            None
+        """
+
         super().__init__(screen)
 
         # Check for invalid arguments
@@ -95,6 +146,13 @@ class InputOverlay(DebugOverlay):
             self.joysticks.append(pygame.joystick.Joystick(x))
 
     def update_current_inputs(self):
+        """
+        Update the current input state.
+
+        This method updates the current state of all input devices being
+        monitored.
+        """
+
         # Update keyboard inputs
         pressed_keys = pygame.key.get_pressed()
         for key_code in self.keys_to_check:
@@ -121,6 +179,16 @@ class InputOverlay(DebugOverlay):
                     self.current_joystick_buttons.discard(id)
 
     def get_text_surfaces(self):
+        """
+        Get a list of text surfaces to display.
+
+        This method returns a list of text surfaces to display based on the
+        current input state.
+
+        Returns:
+            list: A list of Pygame text surfaces.
+        """
+
         # Update current inputs
         self.update_current_inputs()
 
