@@ -2,6 +2,13 @@ import pygame
 
 
 class RectOverlay:
+    """A class for drawing rectangles around sprites.
+    
+    Args:
+        sprite_groups (list, optional): A list of sprite groups to draw
+            rectangles around (default None).
+    """
+    
     def __init__(self, sprite_groups=None):
         """Initializes the RectOverlay with the given Pygame screen.
         
@@ -12,7 +19,7 @@ class RectOverlay:
         Returns:
             None
         """
-        
+
         # Member variables
         self.sprite_groups = sprite_groups
 
