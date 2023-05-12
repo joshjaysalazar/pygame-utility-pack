@@ -116,7 +116,11 @@ class Game:
                 )
             
             # Draw the rect overlay
-            self.rect_overlay.draw()
+            self.rect_overlay.draw(
+                collision_color="maroon",
+                normal_color="blue",
+                rect_width=2
+            )
 
             # Update the display and limit the framerate
             pygame.display.flip()

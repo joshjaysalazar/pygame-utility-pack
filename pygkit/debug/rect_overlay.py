@@ -8,7 +8,7 @@ class RectOverlay:
         sprite_groups (list, optional): A list of sprite groups to draw
             rectangles around (default None).
     """
-    
+
     def __init__(self, sprite_groups=None):
         """Initializes the RectOverlay with the given Pygame screen.
         
@@ -78,7 +78,7 @@ class RectOverlay:
         # Remove the sprite group from the list of sprite groups
         self.sprite_groups.remove(sprite_group)
 
-    def draw(self):
+    def draw(self, normal_color="green", collision_color="red", rect_width=1):
         """Draws the RectOverlay on the screen.
 
         This method clears the overlay surface, and then iterates through each
@@ -88,7 +88,12 @@ class RectOverlay:
         drawn. Finally, the overlay surface is drawn on the screen.
 
         Args:
-            None
+            normal_color (str, optional): The color to use for non-
+                    colliding sprites (default "green").
+            collision_color (str, optional): The color to use for colliding
+                sprites (default "red").
+            rect_width (int, optional): The width of the rectangles to draw
+                (default 1).
 
         Returns:
             None
@@ -126,17 +131,17 @@ class RectOverlay:
                 if colliding:
                     pygame.draw.rect(
                         self.overlay_surface,
-                        "red",
+                        collision_color,
                         sprite.rect,
-                        1
+                        rect_width
                     )
                 # If the sprite is not colliding, draw a green rectangle
                 else:
                     pygame.draw.rect(
                         self.overlay_surface,
-                        "green",
+                        normal_color,
                         sprite.rect,
-                        1
+                        rect_width
                     )
 
         # Draw the overlay surface to the screen
