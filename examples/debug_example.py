@@ -9,7 +9,7 @@ FPS = 60
 
 
 class Game:
-    """A simple game that demonstrates the DebugOverlay class."""
+    """A simple game that demonstrates the debug overlay classes."""
 
     def __init__(self):
         """Initializes the game.
