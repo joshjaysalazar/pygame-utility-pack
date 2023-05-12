@@ -3,6 +3,16 @@ import pygame
 
 class RectOverlay:
     def __init__(self, sprite_groups=None):
+        """Initializes the RectOverlay with the given Pygame screen.
+        
+        Args:
+            sprite_groups (list, optional): A list of sprite groups to draw
+                rectangles around (default None).
+                
+        Returns:
+            None
+        """
+        
         # Member variables
         self.sprite_groups = sprite_groups
 
@@ -100,7 +110,7 @@ class RectOverlay:
                         if collision != sprite:
                             colliding = True
                             break
-                        
+
                     # If the colliding flag is True, break the outer loop
                     if colliding:
                         break
