@@ -15,7 +15,7 @@ class DebugOverlay:
             None
         """
 
-        # Member variables
+        # Screen variable
         self.screen = pygame.display.get_surface()
 
         # Default font for the DebugOverlay
