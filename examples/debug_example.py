@@ -34,7 +34,9 @@ class Game:
         self.circle3 = Circle(300, 300, 3, -3, 150, 150, "darkgreen")
 
         # Create a sprite group and add the circles to it
-        self.boxes = pygame.sprite.Group([self.circle1, self.circle2, self.circle3])
+        self.boxes = pygame.sprite.Group(
+            [self.circle1, self.circle2, self.circle3]
+        )
 
         # Initialize overlays
         self.debug_overlay = DebugOverlay()
@@ -161,8 +163,13 @@ class Circle(pygame.sprite.Sprite):
 
         # Create the sprite's image and rect
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
-        pygame.draw.circle(self.image, color, (width // 2, height // 2), width // 2)
-        self.rect = self.image.get_rect(center=(x, y))
+        pygame.draw.circle(
+            self.image,
+            color,
+            (width // 2, height // 2),
+            width // 2
+        )
+        self.rect = self.image.get_rect(topleft=(x, y))
 
         # Set the sprite's velocity using a Vector2
         self.velocity = pygame.math.Vector2(x_vel, y_vel)
