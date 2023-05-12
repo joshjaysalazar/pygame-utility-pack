@@ -38,6 +38,7 @@ class Game:
 
         # Initialize overlays
         self.debug_overlay = DebugOverlay()
+
         self.input_overlay = InputOverlay(
             expected_keys=[
                 pygame.K_UP,
@@ -55,6 +56,7 @@ class Game:
                 [0, 0]
             ]
         )
+
         self.rect_overlay = RectOverlay([self.boxes])
 
         # Set overlay fonts (debug_overlay uses default font)
@@ -85,11 +87,15 @@ class Game:
 
                 # Check for 1 key press, toggle debug visibility if pressed
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
-                    self.debug_overlay.visible = not self.debug_overlay.visible
+                    self.debug_overlay.toggle_visible()
                 
                 # Check for 2 key press, toggle input visibility if pressed
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
-                    self.input_overlay.visible = not self.input_overlay.visible
+                    self.input_overlay.toggle_visible()
+
+                # Check for 3 key press, toggle rect visibility if pressed
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
+                    self.rect_overlay.toggle_visible()
 
             # Draw background
             self.screen.fill("papayawhip")

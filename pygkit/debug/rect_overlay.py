@@ -99,6 +99,10 @@ class RectOverlay:
             None
         """
 
+        # Return if the overlay is not visible
+        if not self.visible:
+            return
+
         # Clear the overlay surface
         self.overlay_surface.fill((0, 0, 0, 0))
 
