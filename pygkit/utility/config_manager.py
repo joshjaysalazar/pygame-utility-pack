@@ -1,8 +1,7 @@
 import configparser
-import sys
 
 
-class ConfigurationManager(dict):
+class ConfigManager(dict):
     def __init__(self, file):
         super().__init__()
 
