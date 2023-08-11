@@ -33,6 +33,11 @@ class Game:
         self.player = Player(self.config)
 
     def run(self):
+        """Runs the game.
+
+        Returns:
+            None
+        """
 
         # Main loop
         while True:
@@ -56,6 +61,12 @@ class Game:
 
 
 class Player(pygame.sprite.Sprite):
+    """A simple sprite that can be controlled with the keys in the config.
+    
+    Args:
+        config (ConfigManager): The config manager instance.
+    """
+
     def __init__(self, config):
         """Initializes the sprite.
         
