@@ -12,6 +12,7 @@ class ConfigManager(dict):
         # Read the file
         config = configparser.ConfigParser()
         config.read(file)
+        print(config.sections())
 
         # Iterate through the file
         for section in config.sections():
@@ -37,5 +38,3 @@ class ConfigManager(dict):
                 # If not int, float, or bool, assume str
                 else:
                     self[section][key] = str(value)
-
-# test = ConfigurationManager("test.ini")
