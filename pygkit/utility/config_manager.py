@@ -3,7 +3,18 @@ import configparser
 
 
 class ConfigManager(dict):
+    """A class for managing settings from a config file."""
+
     def __init__(self, file):
+        """Initializes the ConfigManager with the given config file.
+
+        Args:
+            file (str): The path to the config file.
+
+        Returns:
+            None
+        """
+
         super().__init__()
 
         # Load the settings
@@ -67,10 +78,10 @@ class ConfigManager(dict):
             pygame.key: The converted key
         """
 
-        # Check if the key is a single character
+        # If it's a single character, make it lowercase
         if len(key) == 1:
             return getattr(pygame, "K_" + key.lower())
 
-        # Check if the key is a special key
+        # Otherwise, make it uppercase
         else:
             return getattr(pygame, "K_" + key.upper(), None)
