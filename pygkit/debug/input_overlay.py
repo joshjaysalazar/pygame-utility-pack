@@ -115,13 +115,15 @@ class InputOverlay(DebugOverlay):
 
         # Turn contents into tuples for compatibilty with set
         self.expected_joystick_buttons = []
-        for button in expected_joystick_buttons:
-            button = tuple(button)
-            self.expected_joystick_buttons.append(button)
+        if expected_joystick_buttons is not None:
+            for button in expected_joystick_buttons:
+                button = tuple(button)
+                self.expected_joystick_buttons.append(button)
         self.expected_joystick_axes = []
-        for axis in expected_joystick_axes:
-            axis = tuple(axis)
-            self.expected_joystick_axes.append(axis)
+        if expected_joystick_axes is not None:
+            for axis in expected_joystick_axes:
+                axis = tuple(axis)
+                self.expected_joystick_axes.append(axis)
 
         # Set of currently active inputs
         self.current_keys = set()
